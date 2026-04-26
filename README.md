@@ -1,6 +1,6 @@
 # FastAPI Advanced
 
-A production-grade FastAPI project built on top of the [fastapi-crud-template](https://github.com/nurullah489/fastapi-crud-template).
+A production-grade FastAPI project built on top of the [fastapi-crud-template](https://github.com/nurullah489/fastapi-learning).
 
 ## Features
 
