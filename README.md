@@ -1,109 +1,115 @@
-\# FastAPI Learning Project 🚀
+# FastAPI Advanced
 
+A production-grade FastAPI project built on top of the [fastapi-crud-template](https://github.com/nurullah489/fastapi-crud-template).
 
+## Features
 
-This is a beginner-friendly FastAPI project demonstrating async CRUD operations using:
+- **Database** — PostgreSQL with SQLAlchemy (async) and Alembic migrations
+- **Authentication** — JWT-based auth with access and refresh tokens
+- **Project Structure** — Modular routers, models, schemas, and services
+- **Testing** — pytest with async test client
+- **Containerization** — Docker and Docker Compose
+- **RL Gym Integration** — FastAPI wrapper around OpenAI Gymnasium environments
 
+## Project Structure
 
+```
+app/
+├── main.py                  # Entry point
+├── dependencies.py          # Shared dependencies
+├── database.py              # DB connection and session
+├── routers/
+│   ├── users.py
+│   ├── items.py
+│   └── auth.py
+├── models/
+│   ├── user.py              # SQLAlchemy ORM models
+│   └── item.py
+├── schemas/
+│   ├── user.py              # Pydantic schemas
+│   └── item.py
+├── services/
+│   ├── user_service.py      # Business logic
+│   └── item_service.py
+└── core/
+    ├── config.py            # Environment config
+    └── security.py          # JWT utilities
+```
 
-* Python 3.12
-* FastAPI
-* Pydantic
-* Async programming
-* Fake in-memory database (list of dictionaries)
+## Requirements
 
+- Python 3.12+
+- PostgreSQL 16+
+- Docker (optional)
 
+## Setup
 
-\---
+### 1. Clone the repo
+```bash
+git clone https://github.com/nurullah489/fastapi-advanced.git
+cd fastapi-advanced
+```
 
+### 2. Create and activate virtual environment
+```bash
+uv venv .venv --python 3.12
+.venv\Scripts\activate        # Windows
+source .venv/bin/activate     # Linux/Mac
+```
 
+### 3. Install dependencies
+```bash
+uv pip install -r requirements.txt
+```
 
-Learning Goals
+### 4. Configure environment variables
+```bash
+cp .env.example .env
+# Edit .env with your DB credentials and secret key
+```
 
-* Understand FastAPI async routes
-* Use Pydantic models
-* Implement CRUD operations
-* Work with dependencies
+### 5. Run database migrations
+```bash
+alembic upgrade head
+```
 
+### 6. Run the application
+```bash
+uvicorn app.main:app --reload
+```
 
+### 7. Run with Docker
+```bash
+docker compose up --build
+```
 
+## API Documentation
 
+Once running, visit:
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- ReDoc: `http://127.0.0.1:8000/redoc`
 
-\## 📂 Features
-
-
-
-\- Create user/item
-
-\- Read users/items
-
-\- Update user/item
-
-\- Delete user/item
-
-\- Pagination support
-
-\- API Key header validation
-
-
-
-\---
-
-
-
-\## ⚙️ Tech Stack
-
-
-
-\- FastAPI
-
-\- Pydantic
-
-\- Uvicorn
-
-
-
-\---
-
-
-
-\## 📌 Example API Endpoints for user
-
-
-
-| Method | Endpoint          | Description        |
-
-|--------|-------------------|--------------------|
-
-| GET    | /users            | Get all users      |
-
-| GET    | /users/{user_id}  | Get user by ID     |
-
-| POST   | /users            | Create new user    |
-
-| PUT    | /users/{user_id}  | Update user        |
-
-| DELETE | /users/{user_id}  | Delete user        |
-
-
-
-\---
-
-
-
-\## ▶️ Run Locally
-
-
+## Running Tests
 
 ```bash
+pytest -v
+```
 
-pip install -r requirements.txt
+## Environment Variables
 
-uvicorn main:app --reload
+| Variable | Description | Example |
+|---|---|---|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql+asyncpg://user:pass@localhost/dbname` |
+| `SECRET_KEY` | JWT signing key | `your-secret-key` |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | JWT expiry | `30` |
+| `API_KEY` | API key for protected routes | `secret-key-123` |
 
+## Roadmap
 
-
-Headers
-
-x-api-key: my-secret-api-key
-
+- [x] Basic CRUD with in-memory store
+- [ ] PostgreSQL + SQLAlchemy integration
+- [ ] Alembic migrations
+- [ ] JWT authentication
+- [ ] pytest test suite
+- [ ] Docker + Docker Compose
+- [ ] RL Gym API wrapper
