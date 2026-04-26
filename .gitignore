@@ -27,3 +27,8 @@ Thumbs.db
 .ipynb_checkpoints
 
 app/main_old.py
+
+.env
+__pycache__/
+*.pyc
+.venv/

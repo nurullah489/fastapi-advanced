@@ -32,6 +32,6 @@ pytest==8.3.5
 pytest-asyncio==0.26.0
 anyio==4.9.0
 
-# RL Gym (added in Day 10)
-# gymnasium==1.0.0
-# stable-baselines3==2.4.0
+# RL Gym 
+gymnasium==1.0.0
+stable-baselines3==2.4.0
