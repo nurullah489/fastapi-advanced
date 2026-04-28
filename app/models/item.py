@@ -1,21 +1,14 @@
-from pydantic import BaseModel, Field
+from sqlalchemy import Integer, String, Float, Boolean
+from app.database import Base
+from sqlalchemy.orm import Mapped, mapped_column
 
 
-class ItemCreate(BaseModel):
-    name: str
-    description: str = Field(..., max_length=300)
-    price: float
-    in_stock: bool = True
-
-class ItemResponse(BaseModel):
-    id: int
-    name: str
-    description: str
-    price: float
-    in_stock: bool
+class Item(Base):
+    __tablename__ = "items"
     
-class ItemUpdate(BaseModel):
-    name: str
-    description: str = Field(..., max_length=300)
-    price: float
-    in_stock: bool
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(String(300), nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
+    in_stock: Mapped[bool] = mapped_column(Boolean, default=True)
+

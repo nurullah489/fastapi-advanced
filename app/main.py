@@ -1,14 +1,26 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.routers import users, items
+from app.database import Base, engine
+
 
 app  = FastAPI(
-    title="FastAPI Learning",
-    description="Production-grade FastAPI project.", 
-    version="1.0.0"
+    title="FastAPI Advanced",
+    description="Production-grade FastAPI with PostgreSQL.", 
+    version="2.0.0"
 )
 
-app.include_router(users.router)
-app.include_router(items.router)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:        
+        async with engine.begin() as conn:
+            pass
+    except Exception as e:
+        print(f"Error during startup: {e}")
+        
+
+
 
 @app.get("/", tags=["Root"])
 async def read_root():
@@ -17,3 +29,6 @@ async def read_root():
 @app.get("/health", tags=["Health"])
 async def health_check():
     return {"status": "healthy"}
+
+app.include_router(users.router)
+app.include_router(items.router)
