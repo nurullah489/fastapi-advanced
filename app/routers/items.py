@@ -1,7 +1,7 @@
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
-from app.dependencies import verify_api_key, pagination
+from app.dependencies import verify_all, pagination
 from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from sqlalchemy import select
 from app.schemas.item import ItemCreate, ItemUpdate, ItemResponse
@@ -17,7 +17,7 @@ def log_item_creation(item_id: int, item_name: str):
     time.sleep(2) 
     print(f"Item created: ID={item_id}, Name={item_name}")
     
-@router.post("/", response_model=ItemResponse, dependencies=[Depends(verify_api_key)], status_code=201)
+@router.post("/", response_model=ItemResponse, dependencies=[Depends(verify_all)], status_code=201)
 async def create_item(item: ItemCreate, background_tasks: BackgroundTasks, db: AsyncSession = Depends(get_db)):
     try:
         result_item = await db.execute(select(Item).where(Item.name == item.name))
@@ -35,7 +35,7 @@ async def create_item(item: ItemCreate, background_tasks: BackgroundTasks, db: A
     background_tasks.add_task(log_item_creation, new_item.id, new_item.name)
     return new_item
  
-@router.get("/", response_model=list[ItemResponse], dependencies=[Depends(verify_api_key)])
+@router.get("/", response_model=list[ItemResponse], dependencies=[Depends(verify_all)])
 async def list_items(params: dict = Depends(pagination), db: AsyncSession = Depends(get_db)):
     try:
         skip = params["skip"]
@@ -46,7 +46,7 @@ async def list_items(params: dict = Depends(pagination), db: AsyncSession = Depe
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching items: {e}")    
 
-@router.get("/{item_id}", response_model=ItemResponse, dependencies=[Depends(verify_api_key)])
+@router.get("/{item_id}", response_model=ItemResponse, dependencies=[Depends(verify_all)])
 async def get_item(item_id: int, db: AsyncSession = Depends(get_db)):
     try:        
         result = await db.execute(select(Item).where(Item.id == item_id))
@@ -59,7 +59,7 @@ async def get_item(item_id: int, db: AsyncSession = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching item: {e}")
 
-@router.put("/{item_id}", response_model=ItemResponse, dependencies=[Depends(verify_api_key)])
+@router.put("/{item_id}", response_model=ItemResponse, dependencies=[Depends(verify_all)])
 async def update_item(item_id: int, item_update: ItemUpdate, db: AsyncSession = Depends(get_db)):
     try:
         result = await db.execute(select(Item).where(Item.id == item_id))
@@ -76,7 +76,7 @@ async def update_item(item_id: int, item_update: ItemUpdate, db: AsyncSession = 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating item: {e}")
  
-@router.delete("/{item_id}", dependencies=[Depends(verify_api_key)], status_code=204)
+@router.delete("/{item_id}", dependencies=[Depends(verify_all)], status_code=204)
 async def delete_item(item_id: int, db: AsyncSession = Depends(get_db)):
     try:
         result = await db.execute(select(Item).where(Item.id == item_id))

@@ -11,25 +11,5 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
+    hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
 
-""" 
-from pydantic import BaseModel, EmailStr
-
-class UserCreate(BaseModel):
-    name: str
-    email: EmailStr
-    age: int
-    active: bool = True
-
-class UserUpdate(BaseModel):
-    name: str
-    email: EmailStr
-    age: int
-    active: bool
-
-class UserResponse(BaseModel):
-    id: int
-    name: str
-    email: str
-    age: int
-    active: bool """

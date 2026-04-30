@@ -4,6 +4,7 @@ class UserCreate(BaseModel):
     name: str
     email: EmailStr
     age: int
+    password: str
     active: bool = True
     
 class UserUpdate(BaseModel):
