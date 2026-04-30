@@ -5,7 +5,7 @@ A production-grade FastAPI project built on top of the [fastapi-crud-template](h
 ## Features
 
 - **Database** — PostgreSQL with SQLAlchemy (async) and Alembic migrations
-- **Authentication** — JWT-based auth with access and refresh tokens
+- **Authentication** — Combined authentication with X-API-Key and JWT-based auth with access and refresh tokens
 - **Project Structure** — Modular routers, models, schemas, and services
 - **Testing** — pytest with async test client
 - **Containerization** — Docker and Docker Compose
