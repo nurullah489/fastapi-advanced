@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from sqlalchemy import select
 from app.models.user import User
-from app.schemas.user import UserCreate, UserUpdate, UserResponse
-from app.dependencies import verify_api_key, pagination, get_current_user, verify_all
+from app.schemas.user import UserUpdate, UserResponse
+from app.dependencies import pagination, verify_all
 
 router = APIRouter(
     prefix="/users",
@@ -72,8 +72,8 @@ async def create_user(
         
 
 # ------------- Update user with authentication -----------------------
-@router.put("/{user_id}", response_model=UserResponse, dependencies=[Depends(verify_all)])
-async def update_user(user_id: int, user_update: UserUpdate, db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user)):
+@router.put("/{user_id}", response_model=UserResponse)
+async def update_user(user_id: int, user_update: UserUpdate, db: AsyncSession = Depends(get_db), current_user: User = Depends(verify_all)):
     if user_id != current_user.id:
         raise HTTPException(status_code=403, detail="You can only update your own profile")
     try:            
@@ -94,8 +94,10 @@ async def update_user(user_id: int, user_update: UserUpdate, db: AsyncSession = 
     
     
 # ------------- Delete user with authentication -----------------------
-@router.delete("/{user_id}", status_code=204, dependencies=[Depends(verify_all)])
-async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)):
+@router.delete("/{user_id}", status_code=204)
+async def delete_user(user_id: int, db: AsyncSession = Depends(get_db), current_user: User = Depends(verify_all)):
+    if current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="You can only delete your own profile")
     try:
         result = await db.execute(select(User).where(User.id == user_id))
         user = result.scalar_one_or_none()
