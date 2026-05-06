@@ -32,3 +32,4 @@ app/main_old.py
 __pycache__/
 *.pyc
 .venv/
+tests/conftest_old.py
