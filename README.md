@@ -107,9 +107,9 @@ pytest -v
 ## Roadmap
 
 - [x] Basic CRUD with in-memory store
-- [ ] PostgreSQL + SQLAlchemy integration
-- [ ] Alembic migrations
-- [ ] JWT authentication
-- [ ] pytest test suite
-- [ ] Docker + Docker Compose
+- [x] PostgreSQL + SQLAlchemy integration
+- [x] Alembic migrations
+- [x] JWT authentication
+- [x] pytest test suite
+- [x] Docker + Docker Compose
 - [ ] RL Gym API wrapper
