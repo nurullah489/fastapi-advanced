@@ -1,6 +1,7 @@
-# FastAPI Advanced
+# FastAPI Advanced — v1.0.0
 
-A production-grade FastAPI project built on top of the [fastapi-crud-template](https://github.com/nurullah489/fastapi-learning).
+A production-grade FastAPI project featuring PostgreSQL, 
+JWT authentication, RL Gym integration, Docker, and 42 pytest tests.
 
 ## Features
 
@@ -113,3 +114,4 @@ pytest -v
 - [x] pytest test suite
 - [x] Docker + Docker Compose
 - [x] RL Gym API wrapper
+- [x] Benchmarking endpoint
