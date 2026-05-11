@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
 
 @app.get("/", tags=["Root"])
 async def read_root():
-    return {"message": "Welcome to the User Management API!"}
+    return {"message": "Welcome to FastAPI Advanced API!"}
 
 @app.get("/health", tags=["Health"])
 async def health_check():

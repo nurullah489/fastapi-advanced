@@ -112,4 +112,4 @@ pytest -v
 - [x] JWT authentication
 - [x] pytest test suite
 - [x] Docker + Docker Compose
-- [ ] RL Gym API wrapper
+- [x ] RL Gym API wrapper

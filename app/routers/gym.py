@@ -14,7 +14,7 @@ router = APIRouter(
     tags=["RL gym"]
 )
 
-@router.post("/environments", response_model=EnvCreateResponse, dependencies=[Depends(verify_all)])
+@router.post("/environments", status_code=201, response_model=EnvCreateResponse, dependencies=[Depends(verify_all)])
 async def create_environment(request: EnvCreateRequest):
     # Create new RL environment session
     return gym_service.create_environment(
@@ -32,7 +32,7 @@ async def step_environment(session_id: str, requst: StepRequest):
     # Take one action step in the environment
     return gym_service.step_environment(session_id, requst.action)
 
-@router.get("/environment/{session_id}", response_model=SessionInfoResponse, dependencies= [Depends(verify_all)])
+@router.get("/environments/{session_id}", response_model=SessionInfoResponse, dependencies= [Depends(verify_all)])
 async def get_session_info(session_id: str):
     # Get current session statistics
     return gym_service.get_session_info(session_id)
@@ -42,7 +42,7 @@ async def list_environments():
     # List all active environment session
     return gym_service.list_session()
 
-@router.delete("environments/{session_id}", status_code=200, dependencies=[Depends(verify_all)])
+@router.delete("/environments/{session_id}", status_code=200, dependencies=[Depends(verify_all)])
 async def close_environment(session_id: str):
     # Close and Clean up environment session
     return gym_service.close_environment(session_id)

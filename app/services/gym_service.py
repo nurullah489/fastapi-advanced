@@ -116,7 +116,7 @@ def list_session() -> list[dict]:
             "total_reward": s["total_reward"],
             "is_active": s["is_active"]
         }
-        for sid, s in _session.item() if s["is_active"]
+        for sid, s in _session.items() if s["is_active"]
     ]
     
 def run_benchmark(env_id: str, episodes: int = 5, max_step: int = 500) -> dict:
