@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from app.routers import users, items, auth, gym
+from app.routers import users, items, auth, gym, training
 from app.database import Base, engine
 from app.schemas import  item
 
@@ -35,3 +35,4 @@ app.include_router(users.router)
 app.include_router(items.router)
 app.include_router(auth.router)
 app.include_router(gym.router)
+app.include_router(training.router)

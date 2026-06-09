@@ -34,3 +34,5 @@ __pycache__/
 *.pyc
 .venv/
 tests/conftest_old.py
+
+trained_models/

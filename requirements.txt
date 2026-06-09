@@ -37,3 +37,10 @@ anyio==4.9.0
 # RL Gym
 gymnasium==1.0.0
 stable-baselines3==2.4.0
+
+
+# Phase 2
+# week 1
+stable-baselines3==2.4.0
+tensorboard==2.19.0
+torch==2.6.0
