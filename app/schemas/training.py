@@ -11,9 +11,9 @@ class TrainingRequest(BaseModel):
 class TrainingResponse(BaseModel):
     model_name: str
     env_id: str
-    alrithm: str
+    algorithm: str
     total_timesteps: int
-    training_time: int
+    training_time_seconds: float
     model_path: str
     message: str
     
@@ -43,4 +43,4 @@ class ModelInfoResponse(BaseModel):
 class TrainingStatusResponse(BaseModel):
     available_algorithms: list[str]
     available_models: list[ModelInfoResponse]
-    trained_model_count: str
+    trained_model_count: int

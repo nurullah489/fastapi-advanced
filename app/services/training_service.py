@@ -1,6 +1,7 @@
 import os
 import time
 import json
+import traceback
 import uuid
 from pathlib import Path
 from typing import Optional
@@ -26,7 +27,8 @@ def _load_registry():
 
 def _save_registry():
     # persist registry to disk
-    registry_path = MODEL_DIR
+    #registry_path = MODEL_DIR
+    registry_path = MODEL_DIR / "registry.json"
     if registry_path.exists:
         with open(registry_path, "w") as f:
             json.dump(_model_registry, f, indent=2)
@@ -107,12 +109,7 @@ def train_agent(
     finally:
         env.close()
         
-    training_time = round(time.time() - start_time, 2)
-    
-    
-    # Simulate saving a trained model file
-    with open(model_path, "w") as f:
-        f.write("This simulates a trained model file.")
+    training_time = round(time.time() - start_time, 2)    
     
     # Register model
     _model_registry[model_name] = {
@@ -138,6 +135,8 @@ def train_agent(
     
 def evaluate_agent(model_name: str, num_episodes: int = 5) -> dict:
     # evaluate a trained agent model, evaluate it and return average reward
+    print(f"in evaluate_agent service:Evaluating model: {model_name} for {num_episodes} episodes")
+    
     if model_name not in _model_registry:
         raise HTTPException(status_code=404, detail=f"Model {model_name} not found. Train it first")
     
@@ -152,6 +151,7 @@ def evaluate_agent(model_name: str, num_episodes: int = 5) -> dict:
     try:
         import gymnasium as gym
         from stable_baselines3 import PPO, A2C, DQN
+        print(f"in evaluate_agent service: import done successfully")
     except ImportError:
         raise HTTPException(status_code=500, detail="Stable Baselines3 not installed. Run: pip install stable-baseline3")
     
@@ -162,8 +162,11 @@ def evaluate_agent(model_name: str, num_episodes: int = 5) -> dict:
     try:
         env = gym.make(info["env_id"])
         model = AlgoClass.load(model_path)
+        print(f"in evaluate_agent service: environment loaded successfully")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to load model or environment: {str(e)}")
+        traceback.print_exc()  # prints the full traceback
+        raise
+        #raise HTTPException(status_code=500, detail=f"Failed to load model or environment: {str(e)}")
     
     episode_rewards = []
     episode_steps = []

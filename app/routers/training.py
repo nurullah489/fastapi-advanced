@@ -48,10 +48,10 @@ async def evaluate_agent(request: EvaluateRequest):
     - **model_name**: Name of the trained model
     - **episodes**: Number of evaluation episodes
     """
-    
+    print(f"Evaluating model: {request.model_name}, Episodes: {request.episodes}")
     return training_service.evaluate_agent(
         model_name=request.model_name,
-        episodes=request.episodes
+        num_episodes=request.episodes
     )
 
 @router.get("/models", response_model=list[ModelInfoResponse], dependencies=[Depends(verify_all)])
